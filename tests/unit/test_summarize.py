@@ -135,6 +135,17 @@ def test_throttling_is_retried(config):
     assert env["status"] == models.STATUS_OK
 
 
+def test_bedrock_service_error_becomes_pipeline_error(config):
+    # A non-retryable service error (e.g. model access denied) must not crash the
+    # Lambda; it is routed to rejected with review_id preserved (R6.4).
+    bedrock = FakeBedrock([FakeClientError("ResourceNotFoundException")])
+    env = handler.process(_envelope(review_id="r-42"), FakeClients(bedrock), config, sleep=_no_sleep)
+    assert env["status"] == models.STATUS_REJECTED
+    assert env["review_id"] == "r-42"
+    assert env["rejection"]["reason"] == models.REASON_PIPELINE_ERROR
+    assert env["rejection"]["stage"] == models.STAGE_SUMMARIZE
+
+
 def test_count_sentences():
     assert handler.count_sentences("One sentence.") == 1
     assert handler.count_sentences("First. Second!") == 2

@@ -93,11 +93,10 @@ class PipelineStack(Stack):
                 resources=["*"],  # Amazon Translate does not support resource ARNs
             )
         )
-        model_arn = f"arn:aws:bedrock:{self.region}::foundation-model/{config.bedrock.model_id}"
         summarize_fn.add_to_role_policy(
             iam.PolicyStatement(
-                actions=["bedrock:InvokeModel"],
-                resources=[model_arn],
+                actions=["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"],
+                resources=self._bedrock_resource_arns(config.bedrock.model_id),
             )
         )
         # write_output: write only to the two output prefixes.
@@ -115,6 +114,24 @@ class PipelineStack(Stack):
         input_bucket.grant_read(state_machine.role)
 
     # ------------------------------------------------------------------------
+
+    def _bedrock_resource_arns(self, model_id: str) -> list[str]:
+        """Resource ARNs for bedrock:InvokeModel.
+
+        Active Claude models are invoked via cross-region inference profiles
+        (ids prefixed us./eu./apac./global.). Invoking a profile requires
+        permission on both the profile ARN and the underlying foundation model
+        ARNs in the regions the profile routes to, so we allow the foundation
+        model across regions (`:*:`). A bare foundation-model id is handled too.
+        """
+        geo_prefixes = ("us.", "eu.", "apac.", "global.")
+        if model_id.startswith(geo_prefixes):
+            fm_id = model_id.split(".", 1)[1]
+            return [
+                f"arn:aws:bedrock:{self.region}:{self.account}:inference-profile/{model_id}",
+                f"arn:aws:bedrock:*::foundation-model/{fm_id}",
+            ]
+        return [f"arn:aws:bedrock:{self.region}::foundation-model/{model_id}"]
 
     def _build_state_machine(
         self,

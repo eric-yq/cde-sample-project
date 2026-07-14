@@ -25,6 +25,7 @@ from common.config import Config
 from common.logging_utils import get_logger, log_event
 from common.models import (
     REASON_LOW_SUMMARY_QUALITY,
+    REASON_PIPELINE_ERROR,
     REASON_SUMMARIZATION_ERROR,
     STAGE_SUMMARIZE,
     STAGE_SUMMARY_GATE,
@@ -184,6 +185,14 @@ def process(
             review_id=record.review_id,
             stage=STAGE_SUMMARIZE,
             reason=REASON_SUMMARIZATION_ERROR,
+        )
+    except Exception as exc:  # noqa: BLE001 - e.g. Bedrock access/service error; route to rejected (R6.4)
+        log_event(_logger, "summarize_pipeline_error", review_id=record.review_id, detail=str(exc)[:300])
+        return make_rejection(
+            review_id=record.review_id,
+            stage=STAGE_SUMMARIZE,
+            reason=REASON_PIPELINE_ERROR,
+            scores={"error": str(exc)[:300]},
         )
 
     sentence_count = count_sentences(summary["summary"])

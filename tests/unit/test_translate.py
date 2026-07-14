@@ -111,6 +111,16 @@ def test_non_retryable_error_propagates(config):
         handler.translate_text(translate, "hello", "fr", "en", config=config, sleep=_no_sleep)
 
 
+def test_service_error_becomes_pipeline_error(config):
+    # A non-retryable Translate error is routed to rejected with review_id kept.
+    translate = FakeTranslate(fail_times=1, fail_code="AccessDeniedException")
+    env = handler.process(_envelope("Bonjour le monde", review_id="r-77"), FakeClients(translate), config, sleep=_no_sleep)
+    assert env["status"] == models.STATUS_REJECTED
+    assert env["review_id"] == "r-77"
+    assert env["rejection"]["reason"] == models.REASON_PIPELINE_ERROR
+    assert env["rejection"]["stage"] == models.STAGE_TRANSLATE
+
+
 def test_score_is_deterministic(config):
     kwargs = dict(
         original="Ce produit est excellent",

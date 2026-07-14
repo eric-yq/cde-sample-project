@@ -16,7 +16,6 @@ translation and scores forward.
 
 from __future__ import annotations
 
-import difflib
 import re
 import time
 from typing import Any, Callable, Mapping
@@ -26,6 +25,7 @@ from common.config import Config
 from common.logging_utils import get_logger, log_event
 from common.models import (
     REASON_LOW_TRANSLATION_QUALITY,
+    REASON_PIPELINE_ERROR,
     STAGE_TRANSLATE,
     STAGE_TRANSLATION_GATE,
     NormalizedRecord,
@@ -56,13 +56,21 @@ def _length_component(original: str, translated: str, band_min: float, band_max:
 
 
 def _similarity(a: str, b: str) -> float:
-    """Token-sequence similarity in [0,1] (order-aware, deterministic)."""
-    ta, tb = _tokens(a), _tokens(b)
+    """Back-translation similarity in [0,1]: the fraction of the original text's
+    distinct tokens that reappear after the round trip (token-set containment).
+
+    Order-insensitive, so legitimate MT reordering is not penalised, while
+    truncation or garbling (few of the original tokens survive) scores low.
+    Calibrated on real Amazon Translate: genuine round-trips keep a clear majority
+    of tokens, garbled/truncated output keeps far fewer. Deterministic.
+    """
+    ta = set(_tokens(a))
+    tb = set(_tokens(b))
     if not ta and not tb:
         return 1.0
-    if not ta or not tb:
+    if not ta:
         return 0.0
-    return difflib.SequenceMatcher(None, ta, tb).ratio()
+    return len(ta & tb) / len(ta)
 
 
 def score_translation(
@@ -124,8 +132,28 @@ def process(
     sleep: Callable[[float], None] = time.sleep,
 ) -> dict[str, Any]:
     """Translate the record and apply the translation quality gate."""
-    result = dict(envelope)
     record = NormalizedRecord.from_dict(envelope["record"])
+    try:
+        return _process(envelope, record, clients, config, sleep=sleep)
+    except Exception as exc:  # noqa: BLE001 - route to rejected, never crash (R6.4)
+        log_event(_logger, "translate_pipeline_error", review_id=record.review_id, detail=str(exc)[:300])
+        return make_rejection(
+            review_id=record.review_id,
+            stage=STAGE_TRANSLATE,
+            reason=REASON_PIPELINE_ERROR,
+            scores={"error": str(exc)[:300]},
+        )
+
+
+def _process(
+    envelope: Mapping[str, Any],
+    record: NormalizedRecord,
+    clients: Any,
+    config: Config,
+    *,
+    sleep: Callable[[float], None] = time.sleep,
+) -> dict[str, Any]:
+    result = dict(envelope)
     source, target = record.source_language, record.target_language
 
     # Pass-through when source == target (R2.4): no translation, perfect score.
