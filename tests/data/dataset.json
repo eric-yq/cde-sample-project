@@ -1,0 +1,1952 @@
+{
+  "clean": [
+    {
+      "review": {
+        "review_id": "r-fr-001",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Ce t-shirt est incroyablement doux et taille parfaitement.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas1@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This t-shirt is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-002",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Ce pull est incroyablement doux et taille parfaitement.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma2@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This sweater is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-003",
+        "product_id": "SKU-DRESS-03",
+        "text": "Ce robe est incroyablement doux et taille parfaitement.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis3@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This dress is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-004",
+        "product_id": "SKU-JACKET-04",
+        "text": "Ce veste est incroyablement doux et taille parfaitement.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe4@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This jacket is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-005",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Ce chemise est incroyablement doux et taille parfaitement.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas5@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This shirt is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-006",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "La qualite du t-shirt est excellente pour le prix.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia6@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the t-shirt is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-007",
+        "product_id": "SKU-SWEATER-02",
+        "text": "La qualite du pull est excellente pour le prix.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn7@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the sweater is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-008",
+        "product_id": "SKU-DRESS-03",
+        "text": "La qualite du robe est excellente pour le prix.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea8@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the dress is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-009",
+        "product_id": "SKU-JACKET-04",
+        "text": "La qualite du veste est excellente pour le prix.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah9@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the jacket is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-010",
+        "product_id": "SKU-SHIRT-05",
+        "text": "La qualite du chemise est excellente pour le prix.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille10@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the shirt is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-011",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Livraison rapide et le t-shirt correspond a la description.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas11@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the t-shirt matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-012",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Livraison rapide et le pull correspond a la description.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma12@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the sweater matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-013",
+        "product_id": "SKU-DRESS-03",
+        "text": "Livraison rapide et le robe correspond a la description.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis13@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the dress matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-014",
+        "product_id": "SKU-JACKET-04",
+        "text": "Livraison rapide et le veste correspond a la description.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe14@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the jacket matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-015",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Livraison rapide et le chemise correspond a la description.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas15@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the shirt matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-016",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Le t-shirt a retreci apres le premier lavage, decevant.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia16@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The t-shirt shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-017",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Le pull a retreci apres le premier lavage, decevant.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn17@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The sweater shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-018",
+        "product_id": "SKU-DRESS-03",
+        "text": "Le robe a retreci apres le premier lavage, decevant.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea18@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The dress shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-019",
+        "product_id": "SKU-JACKET-04",
+        "text": "Le veste a retreci apres le premier lavage, decevant.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah19@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The jacket shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-020",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Le chemise a retreci apres le premier lavage, decevant.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille20@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The shirt shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-021",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Couleur magnifique mais le t-shirt taille un peu petit.",
+        "rating": 3,
+        "source_language": "fr",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas21@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the t-shirt runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-022",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Couleur magnifique mais le pull taille un peu petit.",
+        "rating": 3,
+        "source_language": "fr",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma22@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the sweater runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-023",
+        "product_id": "SKU-DRESS-03",
+        "text": "Couleur magnifique mais le robe taille un peu petit.",
+        "rating": 3,
+        "source_language": "fr",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis23@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the dress runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-024",
+        "product_id": "SKU-JACKET-04",
+        "text": "Couleur magnifique mais le veste taille un peu petit.",
+        "rating": 3,
+        "source_language": "fr",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe24@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the jacket runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-025",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Couleur magnifique mais le chemise taille un peu petit.",
+        "rating": 3,
+        "source_language": "fr",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas25@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the shirt runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-026",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Tres confortable, je recommande ce t-shirt sans hesiter.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia26@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this t-shirt without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-027",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Tres confortable, je recommande ce pull sans hesiter.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn27@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this sweater without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-028",
+        "product_id": "SKU-DRESS-03",
+        "text": "Tres confortable, je recommande ce robe sans hesiter.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea28@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this dress without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-029",
+        "product_id": "SKU-JACKET-04",
+        "text": "Tres confortable, je recommande ce veste sans hesiter.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah29@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this jacket without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-030",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Tres confortable, je recommande ce chemise sans hesiter.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille30@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this shirt without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-031",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Le tissu du t-shirt est fin mais agreable a porter.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas31@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the t-shirt is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-032",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Le tissu du pull est fin mais agreable a porter.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma32@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the sweater is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-033",
+        "product_id": "SKU-DRESS-03",
+        "text": "Le tissu du robe est fin mais agreable a porter.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis33@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the dress is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-034",
+        "product_id": "SKU-JACKET-04",
+        "text": "Le tissu du veste est fin mais agreable a porter.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe34@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the jacket is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-035",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Le tissu du chemise est fin mais agreable a porter.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas35@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the shirt is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-036",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Rapport qualite-prix imbattable pour ce t-shirt.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia36@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this t-shirt.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-037",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Rapport qualite-prix imbattable pour ce pull.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn37@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this sweater.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-038",
+        "product_id": "SKU-DRESS-03",
+        "text": "Rapport qualite-prix imbattable pour ce robe.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea38@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this dress.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-039",
+        "product_id": "SKU-JACKET-04",
+        "text": "Rapport qualite-prix imbattable pour ce veste.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah39@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this jacket.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-040",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Rapport qualite-prix imbattable pour ce chemise.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille40@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this shirt.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-041",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Le t-shirt est arrive avec un petit defaut de couture.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas41@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The t-shirt arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-042",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Le pull est arrive avec un petit defaut de couture.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma42@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The sweater arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-043",
+        "product_id": "SKU-DRESS-03",
+        "text": "Le robe est arrive avec un petit defaut de couture.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis43@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The dress arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-044",
+        "product_id": "SKU-JACKET-04",
+        "text": "Le veste est arrive avec un petit defaut de couture.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe44@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The jacket arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-045",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Le chemise est arrive avec un petit defaut de couture.",
+        "rating": 2,
+        "source_language": "fr",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas45@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The shirt arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-046",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Parfait pour l'ete, ce t-shirt est leger et respirant.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia46@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this t-shirt is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-047",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Parfait pour l'ete, ce pull est leger et respirant.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn47@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this sweater is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-048",
+        "product_id": "SKU-DRESS-03",
+        "text": "Parfait pour l'ete, ce robe est leger et respirant.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea48@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this dress is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-049",
+        "product_id": "SKU-JACKET-04",
+        "text": "Parfait pour l'ete, ce veste est leger et respirant.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah49@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this jacket is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-fr-050",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Parfait pour l'ete, ce chemise est leger et respirant.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille50@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this shirt is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-001",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Dieses T-Shirt ist unglaublich weich und passt perfekt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas1@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This t-shirt is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-002",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Dieses Pullover ist unglaublich weich und passt perfekt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma2@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This sweater is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-003",
+        "product_id": "SKU-DRESS-03",
+        "text": "Dieses Kleid ist unglaublich weich und passt perfekt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis3@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This dress is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-004",
+        "product_id": "SKU-JACKET-04",
+        "text": "Dieses Jacke ist unglaublich weich und passt perfekt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe4@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This jacket is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-005",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Dieses Hemd ist unglaublich weich und passt perfekt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas5@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "This shirt is incredibly soft and fits perfectly.",
+        "template": 0
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-006",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Die Qualitaet des T-Shirt ist ausgezeichnet fuer den Preis.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia6@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the t-shirt is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-007",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Die Qualitaet des Pullover ist ausgezeichnet fuer den Preis.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn7@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the sweater is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-008",
+        "product_id": "SKU-DRESS-03",
+        "text": "Die Qualitaet des Kleid ist ausgezeichnet fuer den Preis.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea8@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the dress is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-009",
+        "product_id": "SKU-JACKET-04",
+        "text": "Die Qualitaet des Jacke ist ausgezeichnet fuer den Preis.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah9@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the jacket is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-010",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Die Qualitaet des Hemd ist ausgezeichnet fuer den Preis.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille10@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The quality of the shirt is excellent for the price.",
+        "template": 1
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-011",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Schnelle Lieferung und das T-Shirt entspricht der Beschreibung.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas11@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the t-shirt matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-012",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Schnelle Lieferung und das Pullover entspricht der Beschreibung.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma12@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the sweater matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-013",
+        "product_id": "SKU-DRESS-03",
+        "text": "Schnelle Lieferung und das Kleid entspricht der Beschreibung.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis13@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the dress matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-014",
+        "product_id": "SKU-JACKET-04",
+        "text": "Schnelle Lieferung und das Jacke entspricht der Beschreibung.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe14@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the jacket matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-015",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Schnelle Lieferung und das Hemd entspricht der Beschreibung.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas15@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Fast delivery and the shirt matches the description.",
+        "template": 2
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-016",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Das T-Shirt ist nach der ersten Waesche eingelaufen, enttaeuschend.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia16@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The t-shirt shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-017",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Das Pullover ist nach der ersten Waesche eingelaufen, enttaeuschend.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn17@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The sweater shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-018",
+        "product_id": "SKU-DRESS-03",
+        "text": "Das Kleid ist nach der ersten Waesche eingelaufen, enttaeuschend.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea18@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The dress shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-019",
+        "product_id": "SKU-JACKET-04",
+        "text": "Das Jacke ist nach der ersten Waesche eingelaufen, enttaeuschend.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah19@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The jacket shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-020",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Das Hemd ist nach der ersten Waesche eingelaufen, enttaeuschend.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille20@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The shirt shrank after the first wash, disappointing.",
+        "template": 3
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-021",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Wunderschoene Farbe, aber das T-Shirt faellt etwas klein aus.",
+        "rating": 3,
+        "source_language": "de",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas21@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the t-shirt runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-022",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Wunderschoene Farbe, aber das Pullover faellt etwas klein aus.",
+        "rating": 3,
+        "source_language": "de",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma22@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the sweater runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-023",
+        "product_id": "SKU-DRESS-03",
+        "text": "Wunderschoene Farbe, aber das Kleid faellt etwas klein aus.",
+        "rating": 3,
+        "source_language": "de",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis23@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the dress runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-024",
+        "product_id": "SKU-JACKET-04",
+        "text": "Wunderschoene Farbe, aber das Jacke faellt etwas klein aus.",
+        "rating": 3,
+        "source_language": "de",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe24@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the jacket runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-025",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Wunderschoene Farbe, aber das Hemd faellt etwas klein aus.",
+        "rating": 3,
+        "source_language": "de",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas25@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Beautiful color but the shirt runs a bit small.",
+        "template": 4
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-026",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Sehr bequem, ich empfehle dieses T-Shirt ohne zu zoegern.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia26@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this t-shirt without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-027",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Sehr bequem, ich empfehle dieses Pullover ohne zu zoegern.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn27@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this sweater without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-028",
+        "product_id": "SKU-DRESS-03",
+        "text": "Sehr bequem, ich empfehle dieses Kleid ohne zu zoegern.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea28@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this dress without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-029",
+        "product_id": "SKU-JACKET-04",
+        "text": "Sehr bequem, ich empfehle dieses Jacke ohne zu zoegern.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah29@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this jacket without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-030",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Sehr bequem, ich empfehle dieses Hemd ohne zu zoegern.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille30@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Very comfortable, I recommend this shirt without hesitation.",
+        "template": 5
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-031",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Der Stoff des T-Shirt ist duenn, aber angenehm zu tragen.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas31@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the t-shirt is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-032",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Der Stoff des Pullover ist duenn, aber angenehm zu tragen.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma32@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the sweater is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-033",
+        "product_id": "SKU-DRESS-03",
+        "text": "Der Stoff des Kleid ist duenn, aber angenehm zu tragen.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis33@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the dress is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-034",
+        "product_id": "SKU-JACKET-04",
+        "text": "Der Stoff des Jacke ist duenn, aber angenehm zu tragen.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe34@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the jacket is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-035",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Der Stoff des Hemd ist duenn, aber angenehm zu tragen.",
+        "rating": 4,
+        "source_language": "de",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas35@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The fabric of the shirt is thin but pleasant to wear.",
+        "template": 6
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-036",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Unschlagbares Preis-Leistungs-Verhaeltnis fuer dieses T-Shirt.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia36@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this t-shirt.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-037",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Unschlagbares Preis-Leistungs-Verhaeltnis fuer dieses Pullover.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn37@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this sweater.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-038",
+        "product_id": "SKU-DRESS-03",
+        "text": "Unschlagbares Preis-Leistungs-Verhaeltnis fuer dieses Kleid.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea38@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this dress.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-039",
+        "product_id": "SKU-JACKET-04",
+        "text": "Unschlagbares Preis-Leistungs-Verhaeltnis fuer dieses Jacke.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah39@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this jacket.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-040",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Unschlagbares Preis-Leistungs-Verhaeltnis fuer dieses Hemd.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille40@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Unbeatable value for money for this shirt.",
+        "template": 7
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-041",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Das T-Shirt kam mit einem kleinen Nahtfehler an.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Lucas",
+        "reviewer_email": "lucas41@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The t-shirt arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-042",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Das Pullover kam mit einem kleinen Nahtfehler an.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Emma",
+        "reviewer_email": "emma42@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The sweater arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-043",
+        "product_id": "SKU-DRESS-03",
+        "text": "Das Kleid kam mit einem kleinen Nahtfehler an.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Louis",
+        "reviewer_email": "louis43@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The dress arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-044",
+        "product_id": "SKU-JACKET-04",
+        "text": "Das Jacke kam mit einem kleinen Nahtfehler an.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Chloe",
+        "reviewer_email": "chloe44@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The jacket arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-045",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Das Hemd kam mit einem kleinen Nahtfehler an.",
+        "rating": 2,
+        "source_language": "de",
+        "reviewer_name": "Jonas",
+        "reviewer_email": "jonas45@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "The shirt arrived with a small stitching defect.",
+        "template": 8
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-046",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Perfekt fuer den Sommer, dieses T-Shirt ist leicht und atmungsaktiv.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Mia",
+        "reviewer_email": "mia46@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this t-shirt is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-047",
+        "product_id": "SKU-SWEATER-02",
+        "text": "Perfekt fuer den Sommer, dieses Pullover ist leicht und atmungsaktiv.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Finn",
+        "reviewer_email": "finn47@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this sweater is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-048",
+        "product_id": "SKU-DRESS-03",
+        "text": "Perfekt fuer den Sommer, dieses Kleid ist leicht und atmungsaktiv.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Lea",
+        "reviewer_email": "lea48@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this dress is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-049",
+        "product_id": "SKU-JACKET-04",
+        "text": "Perfekt fuer den Sommer, dieses Jacke ist leicht und atmungsaktiv.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Noah",
+        "reviewer_email": "noah49@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this jacket is light and breathable.",
+        "template": 9
+      }
+    },
+    {
+      "review": {
+        "review_id": "r-de-050",
+        "product_id": "SKU-SHIRT-05",
+        "text": "Perfekt fuer den Sommer, dieses Hemd ist leicht und atmungsaktiv.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Camille",
+        "reviewer_email": "camille50@example.com"
+      },
+      "expected": {
+        "outcome": "approved"
+      },
+      "_meta": {
+        "reference_translation": "Perfect for summer, this shirt is light and breathable.",
+        "template": 9
+      }
+    }
+  ],
+  "noisy": [
+    {
+      "review": {
+        "review_id": "n-001",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "validation_error",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-002",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "   ",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "validation_error",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-003",
+        "text": "Bon produit",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "validation_error",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-004",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Produit correct",
+        "rating": 9,
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "validation_error",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-005",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Produit correct",
+        "rating": "abc",
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "validation_error",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-006",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Good product overall",
+        "rating": 5,
+        "source_language": "ja",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "unsupported_language",
+        "stage": "ingest"
+      }
+    },
+    {
+      "review": {
+        "review_id": "n-007",
+        "product_id": "SKU-TSHIRT-01",
+        "text": "Ce produit est vraiment excellent et tres confortable a porter tous les jours de la semaine.",
+        "rating": 5,
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "low_translation_quality",
+        "stage": "translation_gate"
+      },
+      "_offline_bad_translation": true
+    },
+    {
+      "review": {
+        "review_id": "n-008",
+        "product_id": "SKU-DRESS-03",
+        "text": "La robe est jolie et le tissu agreable au toucher.",
+        "rating": 4,
+        "source_language": "fr",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "low_summary_quality",
+        "stage": "summary_gate"
+      },
+      "_offline_bad_summary": true
+    },
+    {
+      "review": {
+        "review_id": "n-009",
+        "product_id": "SKU-JACKET-04",
+        "text": "Die Jacke ist warm und gut verarbeitet.",
+        "rating": 5,
+        "source_language": "de",
+        "reviewer_name": "Test User",
+        "reviewer_email": "test@example.com"
+      },
+      "expected": {
+        "outcome": "rejected",
+        "reason": "summarization_error",
+        "stage": "summarize"
+      },
+      "_offline_bad_json": true
+    }
+  ]
+}

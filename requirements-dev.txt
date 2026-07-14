@@ -1,0 +1,4 @@
+# Development & test dependencies (not bundled into Lambdas).
+pytest>=8.0
+PyYAML>=6.0
+boto3>=1.34

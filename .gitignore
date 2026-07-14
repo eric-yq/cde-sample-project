@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# CDK
+infra/cdk.out/
+cdk.out/
+
+# Node (CDK CLI via npx)
+node_modules/
+
+# Evaluation output
+build/

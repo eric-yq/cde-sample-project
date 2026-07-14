@@ -88,8 +88,8 @@ Lambda attached to the payload and branch to either the next stage or a shared
 | Translation | Amazon Translate | `translate_text`; also used for back-translation |
 | Summarization | Amazon Bedrock, Claude via **Converse API** | Model ID from config; default a Claude Haiku-class model for latency/cost |
 | Storage | Amazon S3 | Input, results, rejected; SSE + block public access |
-| Testing | pytest + moto/stubs | Core logic unit-tested with mocked AWS |
-| Packaging | CDK `PythonFunction` / bundling | Shared `common` layer or per-fn deps |
+| Testing | pytest + injected fake clients | Core logic unit-tested offline; no live AWS or moto needed |
+| Packaging | CDK `Code.from_asset("src")` | Runtime deps = stdlib + boto3 only; nothing third-party to bundle |
 
 > The default Bedrock model ID is set in config and confirmed against the sandbox
 > account's enabled models during Week 1 (model access must be granted in Bedrock
@@ -99,32 +99,47 @@ Lambda attached to the payload and branch to either the next stage or a shared
 
 ## Step Functions workflow
 
+**Where the gate decision lives (design refinement).** Rather than encoding the
+numeric threshold comparison in the state machine, each stage Lambda computes its
+score *and* makes the accept/reject decision using the threshold from its
+environment config. A stage returns either an `ok` envelope (enriched with scores)
+or a `rejected` envelope. The `Choice` states therefore only branch on
+`$.status == "rejected"`. This keeps every threshold in `config/pipeline.yaml`
+(injected as env vars) so retuning never requires editing the IaC/state-machine
+definition — directly serving R9.4. Scores are still attached to the envelope for
+observability and the evaluation report.
+
 States (Standard workflow):
 
 1. **Ingest** (`Task` → ingest Lambda)
    - Output: `{ status: "ok" | "rejected", record?, rejection? }`
-   - Retry: none (deterministic, no external call).
-2. **PostIngestChoice** (`Choice`) — if `status == rejected` → `WriteRejected`,
+   - Retry: transient Lambda service faults only; `Catch` → `MarkPipelineError`.
+2. **PostIngestGate** (`Choice`) — if `status == rejected` → `WriteRejected`,
    else → `Translate`.
 3. **Translate** (`Task` → translate Lambda)
-   - Retry: `Translate.ThrottlingException`, transient 5xx → backoff (2s, x2, max N).
-   - Attaches `translation_score`.
-4. **TranslationGate** (`Choice`) — `translation_score >= translation_threshold`
-   → `Summarize`, else set reason `low_translation_quality` → `WriteRejected`.
+   - Retry: transient Lambda service faults → backoff (2s, x2, max 3). Amazon
+     Translate throttling is retried inside the Lambda.
+   - Computes `translation.score` and applies the gate: below threshold →
+     returns a `rejected` envelope (`low_translation_quality`).
+4. **TranslationGate** (`Choice`) — `status == rejected` → `WriteRejected`,
+   else → `Summarize`.
 5. **Summarize** (`Task` → summarize Lambda)
-   - Retry: Bedrock throttling / transient → backoff; invalid-JSON handled inside
-     the Lambda with its own bounded retry.
-   - Attaches `summary`, `fluency`, `factual_consistency`.
-6. **SummaryGate** (`Choice`) — all summary checks pass → `WriteApproved`, else
-   reason `low_summary_quality` → `WriteRejected`.
-7. **WriteApproved** (`Task` → write_output Lambda, mode=approved) → `Success`.
-8. **WriteRejected** (`Task` → write_output Lambda, mode=rejected) → `Success`.
+   - Retry: transient Lambda faults → backoff; Bedrock throttling and malformed
+     JSON handled inside the Lambda (bounded retry).
+   - Computes summary + `fluency` + `factual_consistency` and applies the gate:
+     failure → `rejected` (`low_summary_quality`); unusable model output →
+     `rejected` (`summarization_error`).
+6. **SummaryGate** (`Choice`) — `status == rejected` → `WriteRejected`,
+   else → `WriteApproved`.
+7. **WriteApproved** (`Task` → write_output Lambda, `mode=approved`) → `Success`.
+8. **WriteRejected** (`Task` → write_output Lambda, `mode=rejected`) → `Success`.
 
-A top-level `Catch` on each `Task` routes unhandled errors to `WriteRejected`
-with reason `pipeline_error` (R6.4 — never silently drop).
+A `Catch` on each processing `Task` routes unhandled errors to a `MarkPipelineError`
+`Pass` state (sets reason `pipeline_error`) → `WriteRejected` (R6.4 — never
+silently drop).
 
-State I/O is the pipeline record (below); each Lambda receives the record and
-returns it enriched. Result paths keep the record intact between stages.
+State I/O is the pipeline envelope (below); each Lambda receives the envelope and
+returns it enriched or replaced by a rejection.
 
 ---
 
