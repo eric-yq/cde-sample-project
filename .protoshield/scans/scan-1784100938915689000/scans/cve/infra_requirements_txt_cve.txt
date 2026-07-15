@@ -1,0 +1,3 @@
+=== PYTHON CVE SCAN ===
+Scanning /project/infra/requirements.txt for CVEs:
+No known vulnerabilities found

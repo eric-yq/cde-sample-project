@@ -1,0 +1,4 @@
+=== CDKNAG SCAN RESULTS ===
+Found CDK project in: /project/infra
+ERROR: No cdk.out folder found in /project/infra
+Please run 'cdk synth' in your CDK project first to generate the CloudFormation templates and CDK-nag results.

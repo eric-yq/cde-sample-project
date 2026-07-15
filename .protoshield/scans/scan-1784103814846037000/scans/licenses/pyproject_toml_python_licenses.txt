@@ -1,0 +1,6 @@
+=== PYTHON DEPENDENCIES ===
+## Found Python dependencies in: /project/pyproject.toml
+
+License information:
+ Name                 Version  License 
+ cde-review-pipeline  0.1.0    UNKNOWN 

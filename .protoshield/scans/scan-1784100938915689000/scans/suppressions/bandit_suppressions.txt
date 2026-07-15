@@ -1,0 +1,2 @@
+=== BANDIT SUPPRESSIONS ===
+Config file: pyproject.toml (contains [tool.bandit] section)

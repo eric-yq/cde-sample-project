@@ -1,0 +1,5 @@
+=== CFN-NAG SCAN RESULTS ===
+Note: Scanning standalone CloudFormation templates only.
+CDK synthesized templates (cdk.out/) are analyzed by CDK NAG instead.
+
+No CloudFormation templates found to scan

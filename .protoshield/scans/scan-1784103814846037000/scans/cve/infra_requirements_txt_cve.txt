@@ -1,0 +1,35 @@
+=== PYTHON CVE SCAN ===
+Scanning /project/infra/requirements.txt for CVEs:
+Traceback (most recent call last):
+  File "/root/.local/share/uv/tools/pip-audit/bin/pip-audit", line 10, in <module>
+    sys.exit(audit())
+             ^^^^^^^
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_cli.py", line 554, in audit
+    for spec, vulns in auditor.audit(source):
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_audit.py", line 68, in audit
+    for dep, vulns in self._service.query_all(specs):
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_service/interface.py", line 179, in query_all
+    for spec in specs:
+                ^^^^^
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_dependency_source/requirement.py", line 134, in collect
+    yield from self._collect_from_files(collect_files)
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_dependency_source/requirement.py", line 180, in _collect_from_files
+    ve.create(ve_dir)
+  File "/root/.local/share/uv/tools/pip-audit/lib/python3.12/site-packages/pip_audit/_virtual_env.py", line 80, in create
+    return super().create(env_dir)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.10-linux-aarch64-gnu/lib/python3.12/venv/__init__.py", line 77, in create
+    self._setup_pip(context)
+  File "/root/.local/share/uv/python/cpython-3.12.10-linux-aarch64-gnu/lib/python3.12/venv/__init__.py", line 387, in _setup_pip
+    self._call_new_python(context, '-m', 'ensurepip', '--upgrade',
+  File "/root/.local/share/uv/python/cpython-3.12.10-linux-aarch64-gnu/lib/python3.12/venv/__init__.py", line 383, in _call_new_python
+    subprocess.check_output(args, **kwargs)
+  File "/root/.local/share/uv/python/cpython-3.12.10-linux-aarch64-gnu/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.10-linux-aarch64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/tmpys3jbohc/bin/python3.12', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 127.
+pip-audit completed (exit code indicates vulnerabilities found or other issues)

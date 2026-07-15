@@ -1,0 +1,5 @@
+=== CHECKOV SCAN RESULTS ===
+Scanning all infrastructure-as-code files (Terraform, Kubernetes, Helm, Dockerfile, CDK, CloudFormation, etc.)
+Note: CDK source code and CloudFormation templates are scanned for complementary coverage with CDK NAG and cfn-nag.
+
+

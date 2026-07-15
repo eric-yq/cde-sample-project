@@ -1,0 +1,6 @@
+=== PYTHON CVE SCAN ===
+Scanning /project/pyproject.toml for CVEs:
+ERROR:pip_audit._cli:requirement file /project/pyproject.toml contains invalid specifier at line 1: Invalid requirement: : Expected package name at the start of dependency specifier
+    [build-system]
+    ^
+pip-audit completed (exit code indicates vulnerabilities found or other issues)

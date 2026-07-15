@@ -15,7 +15,7 @@ node_modules/
 build/
 
 # Security scan artifacts (ProtoShield)
-.protoshield/
+# .protoshield/
 
 # macOS metadata
 ._*
