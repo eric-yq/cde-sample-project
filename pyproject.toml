@@ -1,3 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cde-review-pipeline"
+version = "0.1.0"
+description = "Multi-language review translation and summarization pipeline (prototype)"
+requires-python = ">=3.12"
+# Runtime code runs on the AWS Lambda Python runtime (boto3 provided) and is
+# bundled by CDK; dev/test dependencies live in requirements-dev.txt. No runtime
+# dependencies are declared here so tooling can install this project cleanly.
+dependencies = []
+
+# The pipeline source is organized as standalone Lambda packages under src/ that
+# are bundled by CDK, not published as a distribution. Declare no importable
+# packages so `pip install .` produces a valid metadata-only build for scanners.
+[tool.setuptools]
+packages = []
+py-modules = []
+
 [tool.bandit]
 # The pipeline source (src/, infra/, scripts/) has no Bandit findings. The 91 low
 # findings from the scan are all B101 (assert_used) inside the test suite, which is

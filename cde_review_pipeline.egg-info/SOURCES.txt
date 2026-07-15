@@ -1,0 +1,6 @@
+README.md
+pyproject.toml
+cde_review_pipeline.egg-info/PKG-INFO
+cde_review_pipeline.egg-info/SOURCES.txt
+cde_review_pipeline.egg-info/dependency_links.txt
+cde_review_pipeline.egg-info/top_level.txt
