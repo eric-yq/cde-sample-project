@@ -1,3 +1,7 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Pipeline data models and the envelope passed between Step Functions stages.
 
 The pipeline moves a single JSON *envelope* between stages. Each Lambda receives

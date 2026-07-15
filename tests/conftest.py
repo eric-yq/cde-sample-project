@@ -1,3 +1,7 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Shared pytest fixtures. All tests run offline with injected fake AWS clients."""
 
 from __future__ import annotations

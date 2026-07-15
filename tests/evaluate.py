@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """End-to-end evaluation harness (R8.2, R8.3, R8.4, R6.3).
 
 Runs the pipeline stages (ingest -> translate -> summarize) in-process over the

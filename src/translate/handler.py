@@ -1,3 +1,7 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Translate stage (R2) + translation quality gate (R3).
 
 Calls Amazon Translate to translate source -> target, then computes a deterministic

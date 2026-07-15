@@ -1,3 +1,7 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Tests for the summarize stage + summary quality gate (R4, R5, R8.5)."""
 
 from __future__ import annotations

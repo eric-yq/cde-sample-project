@@ -1,3 +1,7 @@
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Tests for data models and the no-PII guarantee (R1.5, R7.1, R7.2, R7.3)."""
 
 from __future__ import annotations

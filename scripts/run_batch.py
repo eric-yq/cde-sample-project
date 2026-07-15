@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
+# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+
 """Batch driver: feed the deployed pipeline from the simulated vendor feed (R6.1).
 
 Starts one Step Functions execution per review in the dataset, polls until each
