@@ -1,0 +1,18 @@
+# Files/paths Holmes should not upload or scan. Same syntax as .gitignore.
+
+# Prior local scanner outputs (protoshield). These are generated artefacts,
+# not project source. They add ~60 noise files to the corpus which slows down
+# the rubric scanner and can confuse cross-file evaluation.
+.protoshield/
+
+# CDK build outputs.
+cdk.out/
+
+# Python build metadata.
+*.egg-info/
+__pycache__/
+.venv/
+
+# IDE/editor
+.vscode/
+.idea/

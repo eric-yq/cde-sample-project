@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Batch driver: feed the deployed pipeline from the simulated vendor feed (R6.1).
 
@@ -26,12 +26,18 @@ import json
 import os
 import time
 
+# How often to poll each Step Functions execution while it is RUNNING.
+# One-second granularity is fine for a batch driver (per-review latency is
+# dominated by Translate + Bedrock latency, not the polling interval) and
+# keeps the DescribeExecution call rate well below AWS default limits.
+POLL_INTERVAL_SECONDS = 1
+
 _DATASET = os.path.join(os.path.dirname(__file__), "..", "tests", "data", "dataset.json")
 
 
 def _load_reviews(dataset_path: str, limit: int | None) -> list[dict]:
-    with open(dataset_path, "r", encoding="utf-8") as fh:
-        dataset = json.load(fh)
+    with open(dataset_path, "r", encoding="utf-8") as dataset_file:
+        dataset = json.load(dataset_file)
     reviews = [e["review"] for e in dataset["clean"]] + [e["review"] for e in dataset["noisy"]]
     return reviews[:limit] if limit else reviews
 
@@ -57,7 +63,7 @@ def run(state_machine_arn: str, region: str | None, dataset_path: str, limit: in
             status = desc["status"]
             output = desc.get("output")
             if status == "RUNNING":
-                time.sleep(1)
+                time.sleep(POLL_INTERVAL_SECONDS)
         if status != "SUCCEEDED":
             outcomes["failed"] += 1
             details.append({"review_id": review_id, "status": status})

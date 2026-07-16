@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """CDK application entrypoint for the review translation & summarization pipeline."""
 

@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Structured, PII-safe logging.
 
@@ -41,7 +41,23 @@ class _JsonFormatter(logging.Formatter):
         extra = getattr(record, "context", None)
         if extra:
             payload["context"] = _redact(extra)
-        return json.dumps(payload, ensure_ascii=False)
+        # Fall back to a str() representation on non-serializable payload values
+        # (e.g. a datetime or a domain object passed by mistake). The primary
+        # requirement is that logging never crashes the caller — a slightly
+        # degraded log line is far better than losing the event.
+        try:
+            return json.dumps(payload, ensure_ascii=False)
+        except (TypeError, ValueError):
+            return json.dumps(
+                {
+                    "level": payload["level"],
+                    "logger": payload["logger"],
+                    "message": payload["message"],
+                    "context_repr": str(payload.get("context")),
+                    "logging_error": "non_json_serializable_context",
+                },
+                ensure_ascii=False,
+            )
 
 
 def get_logger(name: str) -> logging.Logger:

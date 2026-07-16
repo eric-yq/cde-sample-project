@@ -1,6 +1,76 @@
 # 多语言评论翻译与摘要流水线
 
-> English version: [README.md](README.md)
+<!--
+    NOTE FOR ENGLISH READERS
+    ------------------------
+    This repository ships two mirrored README files. If you prefer English,
+    open README.md at the repository root — it contains the full deployment
+    guide (prerequisites, CDK bootstrap, cdk deploy, configuration reference,
+    cost analysis, productionization notes, tear-down, and troubleshooting).
+    The short section below duplicates the essentials in English so a
+    non-Chinese reader landing on this file can still get to a working
+    deployment.
+-->
+
+## English deployment summary
+
+The full English documentation lives in `README.md` at the repository root.
+The essentials below let a non-Chinese reader deploy without waiting on a
+translation:
+
+- **Prerequisites.** Python 3.12, Node.js 18+ (for the AWS CDK CLI via `npx`),
+  AWS credentials for a sandbox account, and Amazon Bedrock model access for
+  the configured Claude model (Bedrock console → *Model access*).
+- **Setup.** From the repo root:
+  `python3 -m venv .venv && source .venv/bin/activate`,
+  then `pip install -r requirements-dev.txt` and
+  `pip install -r infra/requirements.txt`.
+- **Run tests offline (no AWS).** `python -m pytest`.
+- **Run the offline evaluation.** `python tests/evaluate.py --mode offline`.
+- **Bootstrap and deploy (one-time per account/region).**
+  `cd infra && npx aws-cdk bootstrap && npx aws-cdk deploy`.
+- **Drive the deployed pipeline.** Find the state machine ARN with
+  `aws stepfunctions list-state-machines` and run
+  `python scripts/run_batch.py --state-machine-arn <ARN> --region us-east-1 --limit 20`.
+- **Configuration.** All tunables live in `config/pipeline.yaml`; they are
+  read at CDK synth time and injected into every Lambda as environment
+  variables.
+- **Tear down.** `cd infra && npx aws-cdk destroy`.
+- **Troubleshooting (most common).** If Bedrock calls fail with
+  `AccessDeniedException`, enable Model access in the Bedrock console for the
+  configured region. If `cdk deploy` cannot find the Python app, pass the
+  interpreter explicitly:
+  `npx aws-cdk deploy --app "../.venv/bin/python app.py"`.
+
+### English cost analysis
+
+Estimates use us-east-1 on-demand pricing at the time of writing (see the
+[AWS Pricing Calculator](https://calculator.aws/) for current rates). AWS Free
+Tier benefits are not modelled so the numbers are pessimistic.
+
+Assumptions per review: ~500 characters of source text, Amazon Translate
+invoked twice (forward + back-translation) → ~1000 characters, Bedrock Claude
+3 Haiku Converse ~600 input tokens + ~120 output tokens, 4 Lambda invocations
+(~1s at 128 MB), 6 Step Functions Standard state transitions, ~4 S3 requests.
+
+| Scale | Reviews/month | Translate | Bedrock (Haiku) | Lambda | Step Functions | S3 | Total |
+|---|---|---|---|---|---|---|---|
+| Demo | 400 | < $0.01 | < $0.01 | Free tier | Free tier | < $0.01 | ~$0.01 |
+| Pilot | ~4K (~1K/week) | ~$0.06 | ~$0.15 | Free tier | Free tier | < $0.01 | ~$0.25 |
+| Production | ~48K (~12K/week) | ~$0.75 | ~$1.85 | ~$0.01 | ~$0.07 | ~$0.05 | ~$2.75 |
+
+Trade-offs to keep in mind: at prototype scale, Step Functions Standard vs
+Express cost is negligible (ADR-003); Bedrock model choice dominates
+summarization cost (ADR-002) — retune `bedrock.temperature` and prompt
+length before upgrading tiers; each retry re-invokes Translate/Bedrock so
+`retries.max_attempts` multiplies the corresponding line items in the worst
+case. For an authoritative estimate, plug the assumptions into the
+[AWS Pricing Calculator](https://calculator.aws/).
+
+See `docs/adr/` for the architecture decision records that explain *why* the
+system looks the way it does before changing it.
+
+---
 
 一个为 **AnyCompany Apparel** 构建的原型流水线:从模拟的供应商 feed 摄入商品评论,用
 **Amazon Translate** 翻译,用 **Amazon Bedrock(Claude)** 生成 1–2 句摘要,并通过
@@ -44,6 +114,83 @@
 `reviewer_name` 和 `reviewer_email` 在 ingest 的第一步、任何校验或日志记录之前就被丢弃。
 归一化后的记录类型根本没有存放它们的字段,因此 PII 无法流向下游或进入输出。日志还会额外
 对 PII 做脱敏,作为纵深防御。全程只使用合成数据。
+
+---
+
+### 架构决策
+
+关键架构决策记录在 [`docs/adr/`](docs/adr/README.md) 目录下。修改系统之前先阅读它们,
+理解**为什么**当前形态是这样的:
+
+| # | 标题 |
+|---|------|
+| [ADR-001](docs/adr/adr-001-service-selection-for-translation.md) | 翻译服务选型(Amazon Translate 及其替代方案) |
+| [ADR-002](docs/adr/adr-002-genai-service-for-summarization.md) | 摘要 GenAI 服务选型(通过 Converse API 调用 Bedrock Claude) |
+| [ADR-003](docs/adr/adr-003-orchestration-pattern.md) | 编排模式(Step Functions Standard vs Express vs 直接链式调用) |
+| [ADR-004](docs/adr/adr-004-pii-handling-strategy.md) | PII 处理策略(结构性排除 vs 运行时过滤) |
+| [ADR-005](docs/adr/adr-005-quality-gate-implementation.md) | 质量门实现(Lambda 内 + 配置阈值) |
+| [ADR-006](docs/adr/adr-006-translation-quality-scoring.md) | 翻译质量评分(长度比 + 回译相似度) |
+
+### 成本分析
+
+以下估算基于本文档撰写时 us-east-1 的按需价格(实时价格以
+[AWS Pricing Calculator](https://calculator.aws/) 为准)。为了给出保守估计,
+AWS 免费额度(Lambda 每月 1M 次请求、Step Functions 每月 4K 次状态转换,均为
+Always Free)未参与本模型。
+
+单条评论假设:
+- 源文本约 500 字符(与商品评论长度相当)。
+- Amazon Translate 调用两次(正向 + 回译),合计约 1000 字符。
+- Amazon Bedrock Claude 3 Haiku 的 Converse 调用:约 600 个输入 token
+  (系统提示 + 译文)与约 120 个输出 token(JSON 摘要及打分)。
+- 4 次 Lambda 调用(ingest / translate / summarize / write_output),
+  每次 128 MB、约 1 秒。
+- Step Functions Standard 每条评论约 6 次状态转换。
+- 每条通过审核的评论产生约 4 次 S3 PUT/GET。
+
+按规模的月度粗略成本(四舍五入):
+
+| 规模 | 评论量/月 | Translate | Bedrock (Haiku) | Lambda | Step Functions | S3 | 合计 |
+|---|---|---|---|---|---|---|---|
+| Demo | 400 | < $0.01 | < $0.01 | 免费额度内 | 免费额度内 | < $0.01 | ~$0.01 |
+| 试点 | ~4K(约每周 1K) | ~$0.06 | ~$0.15 | 免费额度内 | 免费额度内 | < $0.01 | ~$0.25 |
+| 生产 | ~48K(约每周 12K) | ~$0.75 | ~$1.85 | ~$0.01 | ~$0.07 | ~$0.05 | ~$2.75 |
+
+需要注意的取舍:
+- **Step Functions Standard vs Express (ADR-003)**:在每周 12K 的规模下,
+  Standard 的状态转换费用可以忽略(~$0.07/月)。切换到 Express 会换来更低的
+  单次调用成本,但会失去 Standard 在控制台保留 90 天执行历史的调试优势。
+- **Bedrock 模型选择 (ADR-002)**:Haiku 主导摘要环节的成本。切换到更大的
+  Claude 层级会大致按 token 单价比例放大 Bedrock 一项。升级前应先通过
+  `bedrock.temperature` 和缩短 prompt 长度进行调参。
+- **重试 (`config/pipeline.yaml` → `retries.max_attempts`)**:每次重试都会
+  再次触发底层的 Translate 或 Bedrock 调用,最坏情况下相应的费用会被放大
+  最多 `max_attempts` 倍。
+
+如需权威且实时的估算,请将上述假设输入
+[AWS Pricing Calculator](https://calculator.aws/)。
+
+---
+
+### 生产化考虑
+
+本仓库是原型,面向真实客户流量之前需要补齐:
+
+- **扩容。** 目标速率约每周 12K 条评论,当前形态足以承载。若明显超出,应参考
+  ADR-003 将 Standard 工作流迁到 Express,同时为每个 Lambda 设置预留并发和
+  DLQ。
+- **监控与告警。** 对 Step Functions `ExecutionsFailed`、各 Lambda 的
+  `Errors`/`Throttles`、以及 rejected 写入速率添加 CloudWatch 告警;通过 EMF
+  发布 `RejectionReason` 指标,方便观察拒绝原因分布。
+- **保留策略与加密。** 目前桶已启用 SSE 和 Block Public Access。生产环境应为
+  `results/` 与 `rejected/` 添加生命周期策略,并考虑使用 KMS CMK 加密输出。
+- **真实数据处理。** ADR-004 采用结构性排除,专门服务合成数据。真正的 PII
+  管道需要完整的数据分级与保留设计;ADR-004 明确说明了取代它的触发条件。
+- **集成。** 将摘要发布到 PDP 不在本原型范围内。输出 S3 布局稳定,后续可用
+  EventBridge 触发的发布器接入,无需改动流水线。
+- **错误处理。** 非可重试的 Bedrock/Translate 错误已经路由到
+  `rejected/*.json`,带 `reason=pipeline_error`。生产环境应为拒绝写入速率
+  配置 DLQ 或 SNS 告警,以便捕获系统性问题。
 
 ---
 
@@ -151,6 +298,36 @@ python scripts/run_batch.py --state-machine-arn <ARN> --region us-east-1 --limit
 ```bash
 cd infra && npx aws-cdk destroy
 ```
+
+---
+
+## 故障排查
+
+首次拉起流水线时常见的问题:
+
+- **调用 Bedrock 报 `AccessDeniedException`。** `config/pipeline.yaml` 里
+  `bedrock.model_id` 指定的模型没有在当前账号/区域启用 Model access。到
+  Bedrock 控制台 → *Model access* 中申请对应模型的访问权。
+- **CDK bootstrap 或 deploy 出现凭证/账号错误。** 先确认
+  `aws sts get-caller-identity` 返回的是沙箱账号;每个账号/区域执行一次
+  `npx aws-cdk bootstrap`;并保证虚拟环境已激活(`source .venv/bin/activate`),
+  CDK CLI 才能识别 Python 依赖。
+- **`cdk deploy` 找不到 Python 应用。** 显式指定解释器:
+  `npx aws-cdk deploy --app "../.venv/bin/python app.py"`。
+- **第一条评论就以 `pipeline_error` 失败。** 打开 Step Functions 控制台里
+  失败的执行,进入报错 Lambda 的 CloudWatch Logs,常见原因:Bedrock 权限
+  (见上)、Translate 返回 `UnsupportedLanguagePairException`(源语言必须在
+  `config/pipeline.yaml` 的 `supported_languages` 中)、输出桶 S3
+  `AccessDenied`(通常是 CDK writer 角色不同步,重跑 `cdk deploy`)。
+- **写入输出桶 `AccessDenied`。** CDK 栈会把 writer 角色限定在输出桶及
+  `results/*`/`rejected/*` 前缀。如果在 CDK 之外改过桶名,重新部署栈以
+  重新下发权限策略。
+- **测试报 `ModuleNotFoundError` 找不到 `common` 或 `summarize`。** 在仓库根
+  目录激活虚拟环境后运行 `python -m pytest`;`pytest.ini` 已配置好导入路径,
+  可以按短名导入 `src/` 下的包。
+- **日志里出现 `SummarizationError: no valid summary after retries`。** 模型
+  在重试预算内始终没有返回合法 JSON。确认配置里指定的是支持 Converse API
+  的 Claude 模型,并适当调低 `bedrock.temperature`。
 
 ---
 

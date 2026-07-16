@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """End-to-end evaluation harness (R8.2, R8.3, R8.4, R6.3).
 
@@ -50,6 +50,11 @@ from translate import handler as translate  # noqa: E402
 _ROOT = os.path.join(os.path.dirname(__file__), "..")
 _DATASET = os.path.join(os.path.dirname(__file__), "data", "dataset.json")
 _CONFIG = os.path.join(_ROOT, "config", "pipeline.yaml")
+
+# End-to-end per-review latency budget. Tied to success criterion #3
+# (< 10 seconds/review) in the README and the requirements spec. Change here
+# only when the success criterion itself changes.
+LATENCY_BUDGET_SECONDS = 10.0
 
 
 # --- offline fake engines ---------------------------------------------------
@@ -111,21 +116,21 @@ def _offline_clients(entry: dict, config: Config) -> _Clients:
 def _live_clients(region: str | None) -> _Clients:
     from common.aws_clients import build_clients
 
-    c = build_clients(region_name=region)
-    return _Clients(translate=c.translate, bedrock=c.bedrock)
+    live_clients = build_clients(region_name=region)
+    return _Clients(translate=live_clients.translate, bedrock=live_clients.bedrock)
 
 
 # --- pipeline run -----------------------------------------------------------
 
 def run_one(review: dict, clients: _Clients, config: Config, *, sleep) -> dict:
     """Run ingest -> translate -> summarize in-process, returning an outcome."""
-    t0 = time.perf_counter()
+    start_time = time.perf_counter()
     env = ingest.process(review, config)
     if env["status"] != models.STATUS_REJECTED:
         env = translate.process(env, clients, config, sleep=sleep)
     if env["status"] != models.STATUS_REJECTED:
         env = summarize.process(env, clients, config, sleep=sleep)
-    latency = time.perf_counter() - t0
+    latency = time.perf_counter() - start_time
 
     review_id = review.get("review_id", "unknown")
     if env["status"] == models.STATUS_REJECTED:
@@ -197,11 +202,11 @@ def _summarize_results(results: dict, config: Config) -> dict:
             "mean_score": round(sum(clean_scores) / len(clean_scores), 4) if clean_scores else None,
             "pct_at_or_above_threshold": round(100.0 * len(above) / len(clean_scores), 2) if clean_scores else None,
         },
-        "latency": {"max_s": round(max_latency, 4), "budget_s": 10.0},
+        "latency": {"max_s": round(max_latency, 4), "budget_s": LATENCY_BUDGET_SECONDS},
         "criteria": {
             "clean_all_approved": len(clean_approved) == clean_total,
             "noisy_all_correctly_rejected": len(noisy_correct) == len(noisy),
-            "latency_under_budget": max_latency < 10.0,
+            "latency_under_budget": max_latency < LATENCY_BUDGET_SECONDS,
         },
         "items": results,
     }
@@ -217,22 +222,22 @@ def main() -> int:
     parser.add_argument("--report", default=os.path.join(_ROOT, "build", "eval_report.json"))
     args = parser.parse_args()
 
-    with open(args.dataset, "r", encoding="utf-8") as fh:
-        dataset = json.load(fh)
+    with open(args.dataset, "r", encoding="utf-8") as dataset_file:
+        dataset = json.load(dataset_file)
     config = Config.from_yaml(_CONFIG)
 
     report = evaluate(dataset, config, mode=args.mode, region=args.region)
 
     os.makedirs(os.path.dirname(args.report), exist_ok=True)
-    with open(args.report, "w", encoding="utf-8") as fh:
-        json.dump(report, fh, ensure_ascii=False, indent=2)
+    with open(args.report, "w", encoding="utf-8") as report_file:
+        json.dump(report, report_file, ensure_ascii=False, indent=2)
 
-    c = report["counts"]
-    ta = report["translation_accuracy"]
+    counts = report["counts"]
+    translation_accuracy = report["translation_accuracy"]
     print(f"mode={args.mode}")
-    print(f"clean approved: {c['clean_approved']}/{c['clean_total']}")
-    print(f"noisy correctly rejected: {c['noisy_correctly_rejected']}/{c['noisy_total']}")
-    print(f"translation mean score: {ta['mean_score']} (>= {ta['threshold']}: {ta['pct_at_or_above_threshold']}%)")
+    print(f"clean approved: {counts['clean_approved']}/{counts['clean_total']}")
+    print(f"noisy correctly rejected: {counts['noisy_correctly_rejected']}/{counts['noisy_total']}")
+    print(f"translation mean score: {translation_accuracy['mean_score']} (>= {translation_accuracy['threshold']}: {translation_accuracy['pct_at_or_above_threshold']}%)")
     print(f"max latency: {report['latency']['max_s']}s (budget {report['latency']['budget_s']}s)")
     print(f"criteria: {report['criteria']}")
     print(f"PASSED: {report['passed']}  (report written to {args.report})")

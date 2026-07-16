@@ -53,6 +53,92 @@ defence in depth. Only synthetic data is used.
 
 ---
 
+### Architecture decisions
+
+The consequential design choices are recorded as ADRs under
+[`docs/adr/`](docs/adr/README.md). Start there to understand *why* the system
+looks the way it does before changing it:
+
+| # | Title |
+|---|-------|
+| [ADR-001](docs/adr/adr-001-service-selection-for-translation.md) | Service selection for translation (Amazon Translate vs alternatives) |
+| [ADR-002](docs/adr/adr-002-genai-service-for-summarization.md) | GenAI service for summarization (Bedrock Claude via Converse API) |
+| [ADR-003](docs/adr/adr-003-orchestration-pattern.md) | Orchestration pattern (Step Functions Standard vs Express vs direct chaining) |
+| [ADR-004](docs/adr/adr-004-pii-handling-strategy.md) | PII handling strategy (structural exclusion vs runtime filtering) |
+| [ADR-005](docs/adr/adr-005-quality-gate-implementation.md) | Quality-gate implementation (in-Lambda + config thresholds) |
+| [ADR-006](docs/adr/adr-006-translation-quality-scoring.md) | Translation quality scoring (length ratio + back-translation) |
+
+### Cost analysis
+
+Estimates below use us-east-1 on-demand pricing at the time of writing (see the
+[AWS Pricing Calculator](https://calculator.aws/) for current rates). AWS Free
+Tier benefits — 1M Lambda requests/month, 4K Step Functions state transitions/month —
+are Always Free and are not modelled here so the numbers are pessimistic.
+
+Assumptions per review:
+- ~500 characters of source text (product-review length).
+- Amazon Translate is invoked twice (forward + back-translation) → ~1000 characters.
+- Amazon Bedrock Claude 3 Haiku Converse call: ~600 input tokens (system prompt +
+  translated review) and ~120 output tokens (JSON with summary + scores).
+- 4 Lambda invocations (ingest, translate, summarize, write_output), each ~1s at
+  128 MB.
+- 6 Step Functions Standard state transitions per review.
+- 4 S3 PUT/GET operations per approved review.
+
+Approximate monthly cost by scale (rounded):
+
+| Scale | Reviews/month | Translate | Bedrock (Haiku) | Lambda | Step Functions | S3 | Total |
+|---|---|---|---|---|---|---|---|
+| Demo | 400 | < $0.01 | < $0.01 | Free tier | Free tier | < $0.01 | ~$0.01 |
+| Pilot | ~4K (~1K/week) | ~$0.06 | ~$0.15 | Free tier | Free tier | < $0.01 | ~$0.25 |
+| Production | ~48K (~12K/week) | ~$0.75 | ~$1.85 | ~$0.01 | ~$0.07 | ~$0.05 | ~$2.75 |
+
+Trade-offs worth noting:
+- **Step Functions Standard vs Express (ADR-003).** At 12K reviews/week, Standard
+  state-transition cost is negligible (~$0.07/mo). Express would trade the
+  90-day console execution history for a lower per-invocation cost that is not
+  material at this scale — see ADR-003 for when to revisit.
+- **Bedrock model choice (ADR-002).** Haiku dominates the summarization cost;
+  moving to a larger Claude tier would multiply the Bedrock line item by roughly
+  the token-price ratio. Retune first via `bedrock.temperature` and prompt
+  length before upgrading.
+- **Retries (`config/pipeline.yaml` → `retries.max_attempts`).** Each retry
+  re-invokes the underlying Translate or Bedrock call and multiplies the
+  associated line-item cost by up to `max_attempts` in the worst case.
+
+For an authoritative and current estimate, plug the assumptions above into the
+[AWS Pricing Calculator](https://calculator.aws/).
+
+---
+
+### Productionization notes
+
+This is a prototype. The following would need to be added before running against
+real customer traffic. See [Boundaries](#boundaries) for the full out-of-scope
+list.
+
+- **Scaling.** At the target rate of ~12K reviews/week the current shape is
+  comfortable. Above that, revisit ADR-003 (Standard → Express workflow) and
+  set Lambda reserved concurrency + a DLQ per stage.
+- **Monitoring and alerting.** Add CloudWatch alarms on the Step Functions
+  `ExecutionsFailed` metric, per-Lambda `Errors` and `Throttles`, and the
+  rejected-output write rate. Emit a `RejectionReason` metric via EMF so the
+  gate rejection mix is observable.
+- **Retention and encryption.** The buckets have SSE and Block Public Access
+  today. For production, add lifecycle policies on `results/` and `rejected/`,
+  and consider KMS CMK-based encryption for output.
+- **Real data handling.** ADR-004 is deliberately structural-exclusion for
+  synthetic data. Real PII pipelines need a full data-classification and
+  retention design; ADR-004 states the trigger to supersede it.
+- **Integration.** Publishing summaries onto the PDP is out of scope here.
+  The output S3 layout is stable, so an EventBridge-triggered publisher can
+  be added without touching the pipeline.
+- **Error handling.** Non-retryable Bedrock/Translate errors already route to
+  `rejected/*.json` with `reason=pipeline_error`. In production, wire a DLQ
+  or an SNS alert on the rejected-output rate to catch systemic issues.
+
+---
+
 ## Repository layout
 
 ```
@@ -162,6 +248,43 @@ output bucket.
 ```bash
 cd infra && npx aws-cdk destroy
 ```
+
+---
+
+## Troubleshooting
+
+Common failure modes when standing the pipeline up for the first time:
+
+- **`AccessDeniedException` invoking a Bedrock model.** The configured model
+  in `config/pipeline.yaml` (`bedrock.model_id`) does not have Model access
+  enabled in this account/region. Open the Bedrock console → *Model access* in
+  the same region as the CDK stack and request access to the exact model id.
+- **CDK bootstrap or deploy fails with a credentials or account error.**
+  Confirm `aws sts get-caller-identity` returns the sandbox account, run
+  `npx aws-cdk bootstrap` once per account/region, and make sure the CDK app
+  is invoked from an active virtual environment (`source .venv/bin/activate`)
+  so the CDK CLI picks up the Python dependencies.
+- **`cdk deploy` cannot find the Python app.** Pass the interpreter
+  explicitly: `npx aws-cdk deploy --app "../.venv/bin/python app.py"`.
+- **Step Functions execution ends with `pipeline_error` on the very first
+  review.** Open the failed execution in the Step Functions console, follow
+  the CloudWatch Logs link for the stage Lambda that raised, and check for:
+  Bedrock access errors (see above), a Translate `UnsupportedLanguagePairException`
+  (the source language must be in `config/pipeline.yaml`'s
+  `supported_languages`), or an S3 `AccessDenied` on the output bucket
+  (indicates the CDK output-writer role is out of sync — redeploy).
+- **`AccessDenied` writing to the output bucket.** The CDK stack scopes the
+  writer role to the output bucket and the `results/*`/`rejected/*` prefixes.
+  If you renamed the bucket outside CDK, redeploy the stack to reissue the
+  policy.
+- **Tests fail with `ModuleNotFoundError` for `common` or `summarize`.** Run
+  tests from the repo root (`python -m pytest`) with the virtual environment
+  active; `pytest.ini` sets the import path so tests can import the `src/`
+  packages by short name.
+- **`SummarizationError: no valid summary after retries` in the logs.** The
+  model returned non-JSON output past the bounded retry budget. Verify the
+  configured model id is a Claude model with the Converse API surface, and
+  that `bedrock.temperature` in config is low enough for JSON-mode behaviour.
 
 ---
 

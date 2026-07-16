@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Tests for the translate stage + translation quality gate (R2, R3, R8.5)."""
 
@@ -8,19 +8,9 @@ from __future__ import annotations
 
 import pytest
 
+from _test_helpers import FakeClientError
 from common import models
 from translate import handler
-
-
-class FakeClientError(Exception):
-    """Mimics botocore ClientError enough for the retry helper."""
-
-    def __init__(self, code: str, status: int = 400) -> None:
-        super().__init__(code)
-        self.response = {
-            "Error": {"Code": code},
-            "ResponseMetadata": {"HTTPStatusCode": status},
-        }
 
 
 class FakeTranslate:

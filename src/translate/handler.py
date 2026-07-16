@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Translate stage (R2) + translation quality gate (R3).
 
@@ -59,7 +59,7 @@ def _length_component(original: str, translated: str, band_min: float, band_max:
     return max(0.0, band_max / ratio)
 
 
-def _similarity(a: str, b: str) -> float:
+def _similarity(original: str, back_translated: str) -> float:
     """Back-translation similarity in [0,1]: the fraction of the original text's
     distinct tokens that reappear after the round trip (token-set containment).
 
@@ -68,13 +68,13 @@ def _similarity(a: str, b: str) -> float:
     Calibrated on real Amazon Translate: genuine round-trips keep a clear majority
     of tokens, garbled/truncated output keeps far fewer. Deterministic.
     """
-    ta = set(_tokens(a))
-    tb = set(_tokens(b))
-    if not ta and not tb:
+    original_tokens = set(_tokens(original))
+    back_translated_tokens = set(_tokens(back_translated))
+    if not original_tokens and not back_translated_tokens:
         return 1.0
-    if not ta:
+    if not original_tokens:
         return 0.0
-    return len(ta & tb) / len(ta)
+    return len(original_tokens & back_translated_tokens) / len(original_tokens)
 
 
 def score_translation(
@@ -140,12 +140,15 @@ def process(
     try:
         return _process(envelope, record, clients, config, sleep=sleep)
     except Exception as exc:  # noqa: BLE001 - route to rejected, never crash (R6.4)
+        # Log the full detail server-side; return only a generic marker to the
+        # rejected envelope so raw exception text (which can include ARNs,
+        # region names, or stack frames) is not surfaced to callers.
         log_event(_logger, "translate_pipeline_error", review_id=record.review_id, detail=str(exc)[:300])
         return make_rejection(
             review_id=record.review_id,
             stage=STAGE_TRANSLATE,
             reason=REASON_PIPELINE_ERROR,
-            scores={"error": str(exc)[:300]},
+            scores={"error": "internal_error"},
         )
 
 

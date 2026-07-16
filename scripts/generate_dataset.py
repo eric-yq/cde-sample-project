@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Generate the synthetic evaluation dataset (R8.1, R8.3).
 
@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
 # 10 parallel template triples. {p} is replaced by the product noun in each
 # language. Ratings reflect the sentiment so the dataset is realistic.
@@ -110,9 +111,9 @@ def _clean_entries(language: str) -> list[dict]:
 
 def _noisy_entries() -> list[dict]:
     def entry(review, reason, stage, **flags):
-        e = {"review": review, "expected": {"outcome": "rejected", "reason": reason, "stage": stage}}
-        e.update(flags)
-        return e
+        dataset_entry = {"review": review, "expected": {"outcome": "rejected", "reason": reason, "stage": stage}}
+        dataset_entry.update(flags)
+        return dataset_entry
 
     base_pii = {"reviewer_name": "Test User", "reviewer_email": "test@example.com"}
     return [
@@ -166,19 +167,27 @@ def build_dataset() -> dict:
     return {"clean": clean, "noisy": _noisy_entries()}
 
 
-def main() -> None:
+def main() -> int:
     dataset = build_dataset()
     out_dir = os.path.join(os.path.dirname(__file__), "..", "tests", "data")
-    os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "dataset.json")
-    with open(out_path, "w", encoding="utf-8") as fh:
-        json.dump(dataset, fh, ensure_ascii=False, indent=2)
+    try:
+        os.makedirs(out_dir, exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as dataset_file:
+            json.dump(dataset, dataset_file, ensure_ascii=False, indent=2)
+    except OSError as exc:
+        # Disk full, permission denied, invalid path, or other filesystem errors.
+        # Report with context and exit non-zero so callers (CI, make targets) fail
+        # loudly rather than seeing a partially-written or missing dataset.
+        print(f"error: failed to write dataset to {out_path}: {exc}", file=sys.stderr)
+        return 1
     n_fr = sum(1 for e in dataset["clean"] if e["review"]["source_language"] == "fr")
     n_de = sum(1 for e in dataset["clean"] if e["review"]["source_language"] == "de")
     print(f"Wrote {out_path}")
     print(f"  clean: {len(dataset['clean'])} (fr={n_fr}, de={n_de})")
     print(f"  noisy: {len(dataset['noisy'])}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

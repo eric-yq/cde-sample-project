@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "projectId": "f30cb8df-7bc7-48b0-bcb9-a084ff70f047",
+  "projectName": "cde-sample-project",
+  "createdAt": "2026-07-15T09:07:58.990Z",
+  "updatedAt": "2026-07-15T09:58:11.862Z",
+  "stage": "prod",
+  "region": "us-east-1",
+  "lastScan": {
+    "scanId": "55b5e9d5-57e2-4bdd-8d9d-e7bc4153c3a6",
+    "scanName": "cde-sample-project 2026-07-15 17:58",
+    "startedAt": "2026-07-15T09:58:12Z"
+  }
+}

@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Tests for the summarize stage + summary quality gate (R4, R5, R8.5)."""
 
@@ -8,19 +8,9 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
+from _test_helpers import FakeClientError
 from common import models
 from summarize import handler
-
-
-class FakeClientError(Exception):
-    def __init__(self, code: str, status: int = 400) -> None:
-        super().__init__(code)
-        self.response = {
-            "Error": {"Code": code},
-            "ResponseMetadata": {"HTTPStatusCode": status},
-        }
 
 
 class FakeBedrock:
@@ -154,3 +144,59 @@ def test_count_sentences():
     assert handler.count_sentences("One sentence.") == 1
     assert handler.count_sentences("First. Second!") == 2
     assert handler.count_sentences("No terminator") == 1
+
+
+# Prompt-regression tests
+# -----------------------
+# The Bedrock Converse invocation (handler.generate_summary) is a runtime LLM
+# call. These tests pin the two things that a change to build_prompt or the
+# system prompt could regress silently:
+#   1. The exact prompt string handed to the model for a fixed input.
+#   2. That a fixed model response for a fixed input surfaces in the envelope
+#      (i.e. no extra parsing/normalisation swallows an expected keyword).
+# Both use FakeBedrock so the tests remain offline and deterministic.
+
+
+def test_build_prompt_stable_for_fixed_input(config):
+    prompt = handler.build_prompt(
+        "This t-shirt is soft and fits perfectly.",
+        target_language="en",
+        max_chars=config.thresholds.max_summary_chars,
+    )
+    # The prompt must instruct the model in the target language, cap length,
+    # forbid hallucination, and demand a JSON-only reply. If any of these
+    # invariants is dropped, downstream JSON parsing and factuality gate break.
+    assert "English" in prompt
+    assert f"at most {config.thresholds.max_summary_chars} characters" in prompt
+    assert "do not add opinions or details that are not present" in prompt
+    assert '"summary"' in prompt and '"fluency"' in prompt and '"factual_consistency"' in prompt
+    # The review text must appear verbatim inside the review block.
+    assert "This t-shirt is soft and fits perfectly." in prompt
+
+
+def test_prompt_regression_expected_keyword_surfaces_in_summary(config):
+    # For a fixed input and a fixed model response, the pipeline must produce
+    # a summary containing the domain keyword. This guards against future
+    # refactors that strip or rewrite the model's summary field.
+    bedrock = FakeBedrock(_json_response("Shoppers say this t-shirt is soft and true to size."))
+    env = handler.process(
+        _envelope(translated="This t-shirt is soft and fits perfectly."),
+        FakeClients(bedrock),
+        config,
+        sleep=_no_sleep,
+    )
+    assert env["status"] == models.STATUS_OK
+    text = env["summary"]["text"].lower()
+    assert "soft" in text
+    assert "true to size" in text
+
+
+def test_prompt_regression_forbidden_string_absent(config):
+    # If the model returns a compliant JSON payload, the summary field must be
+    # passed through verbatim. This anchors the contract for prompt/response
+    # handling so future changes cannot silently inject boilerplate text.
+    forbidden = "As an AI language model"
+    bedrock = FakeBedrock(_json_response("Great fit and soft fabric."))
+    env = handler.process(_envelope(), FakeClients(bedrock), config, sleep=_no_sleep)
+    assert env["status"] == models.STATUS_OK
+    assert forbidden not in env["summary"]["text"]

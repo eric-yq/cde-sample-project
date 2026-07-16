@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """AWS client factory and a small retry/backoff helper.
 
@@ -14,6 +14,11 @@ import time
 from typing import Any, Callable, Iterable, TypeVar
 
 T = TypeVar("T")
+
+# Exponential backoff base: delay for attempt N is base_delay_seconds * BACKOFF_BASE ** (N-1).
+# A base of 2 gives the standard 1x, 2x, 4x, 8x, ... progression that AWS SDK
+# retries use. Changing this changes the growth rate of the retry delay.
+BACKOFF_BASE = 2
 
 # Botocore error codes that are safe to retry (throttling + transient service errors).
 RETRYABLE_ERROR_CODES = frozenset(
@@ -65,7 +70,7 @@ def retry_with_backoff(
         except Exception as exc:  # noqa: BLE001 - re-raised below
             if attempt >= max_attempts or not retryable(exc):
                 raise
-            sleep(base_delay_seconds * (2 ** (attempt - 1)))
+            sleep(base_delay_seconds * (BACKOFF_BASE ** (attempt - 1)))
 
 
 class Clients:

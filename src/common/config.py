@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """Pipeline configuration loading.
 
@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Mapping, MutableMapping
 
 # Environment variable names. Kept in one place so the CDK app (which writes them)
@@ -141,40 +141,40 @@ class Config:
         """Load config from a YAML file. Requires PyYAML (dev/synth only)."""
         import yaml  # local import: not needed at Lambda runtime
 
-        with open(path, "r", encoding="utf-8") as fh:
-            data = yaml.safe_load(fh)
+        with open(path, "r", encoding="utf-8") as config_file:
+            data = yaml.safe_load(config_file)
         return cls.from_dict(data, **buckets)
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> "Config":
         """Rebuild config from environment variables (Lambda runtime path)."""
-        e = env if env is not None else os.environ
+        env_map = env if env is not None else os.environ
         return cls(
-            target_language=e[ENV_TARGET_LANGUAGE],
-            supported_languages=tuple(json.loads(e[ENV_SUPPORTED_LANGUAGES])),
+            target_language=env_map[ENV_TARGET_LANGUAGE],
+            supported_languages=tuple(json.loads(env_map[ENV_SUPPORTED_LANGUAGES])),
             bedrock=BedrockConfig(
-                model_id=e[ENV_BEDROCK_MODEL_ID],
-                max_tokens=int(e[ENV_BEDROCK_MAX_TOKENS]),
-                temperature=float(e[ENV_BEDROCK_TEMPERATURE]),
+                model_id=env_map[ENV_BEDROCK_MODEL_ID],
+                max_tokens=int(env_map[ENV_BEDROCK_MAX_TOKENS]),
+                temperature=float(env_map[ENV_BEDROCK_TEMPERATURE]),
             ),
             thresholds=Thresholds(
-                translation_score=float(e[ENV_TRANSLATION_SCORE_THRESHOLD]),
-                fluency=float(e[ENV_FLUENCY_THRESHOLD]),
-                factual_consistency=float(e[ENV_FACTUAL_CONSISTENCY_THRESHOLD]),
-                max_summary_chars=int(e[ENV_MAX_SUMMARY_CHARS]),
-                length_ratio_min=float(e[ENV_LENGTH_RATIO_MIN]),
-                length_ratio_max=float(e[ENV_LENGTH_RATIO_MAX]),
+                translation_score=float(env_map[ENV_TRANSLATION_SCORE_THRESHOLD]),
+                fluency=float(env_map[ENV_FLUENCY_THRESHOLD]),
+                factual_consistency=float(env_map[ENV_FACTUAL_CONSISTENCY_THRESHOLD]),
+                max_summary_chars=int(env_map[ENV_MAX_SUMMARY_CHARS]),
+                length_ratio_min=float(env_map[ENV_LENGTH_RATIO_MIN]),
+                length_ratio_max=float(env_map[ENV_LENGTH_RATIO_MAX]),
             ),
             scoring_weights=ScoringWeights(
-                length=float(e[ENV_SCORING_WEIGHT_LENGTH]),
-                back_translation=float(e[ENV_SCORING_WEIGHT_BACK_TRANSLATION]),
+                length=float(env_map[ENV_SCORING_WEIGHT_LENGTH]),
+                back_translation=float(env_map[ENV_SCORING_WEIGHT_BACK_TRANSLATION]),
             ),
             retries=RetryConfig(
-                max_attempts=int(e[ENV_RETRIES_MAX_ATTEMPTS]),
-                base_delay_seconds=float(e[ENV_RETRIES_BASE_DELAY_SECONDS]),
+                max_attempts=int(env_map[ENV_RETRIES_MAX_ATTEMPTS]),
+                base_delay_seconds=float(env_map[ENV_RETRIES_BASE_DELAY_SECONDS]),
             ),
-            input_bucket=e.get(ENV_INPUT_BUCKET, ""),
-            output_bucket=e.get(ENV_OUTPUT_BUCKET, ""),
+            input_bucket=env_map.get(ENV_INPUT_BUCKET, ""),
+            output_bucket=env_map.get(ENV_OUTPUT_BUCKET, ""),
         )
 
 

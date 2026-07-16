@@ -1,6 +1,6 @@
 # Copyright 2025 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: LicenseRef-.amazon.com.-AmznSL-1.0
-# Licensed under the Amazon Software License  http://aws.amazon.com/asl/
+# Licensed under the Amazon Software License  https://aws.amazon.com/asl/
 
 """CDK stack for the review translation & summarization pipeline (R9).
 
@@ -196,8 +196,8 @@ class PipelineStack(Stack):
         ingest = lambda_task("Ingest", ingest_fn)
         translate = lambda_task("Translate", translate_fn)
         summarize = lambda_task("Summarize", summarize_fn)
-        for t in (ingest, translate, summarize):
-            t.add_catch(pipeline_error, errors=["States.ALL"], result_path="$.error")
+        for stage_task in (ingest, translate, summarize):
+            stage_task.add_catch(pipeline_error, errors=["States.ALL"], result_path="$.error")
 
         def gate(cid: str, on_ok: sfn.IChainable) -> sfn.Choice:
             return (
